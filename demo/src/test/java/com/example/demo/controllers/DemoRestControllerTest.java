@@ -20,4 +20,14 @@ class DemoRestControllerTest {
                 .expectStatus().isOk()
                 .expectBody(String.class).isEqualTo("{\"message\":\"Hello World!\"}");
     }
+
+    @Test
+    void greetWithName(@Autowired RestTestClient restClient) {
+        restClient
+                .get().uri("/rest?name=Valerio")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class).isEqualTo("{\"message\":\"Hello Valerio!\"}");
+    }
 }
