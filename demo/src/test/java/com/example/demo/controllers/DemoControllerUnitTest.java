@@ -17,7 +17,7 @@ class DemoControllerUnitTest {
         String expectedReturnPath = "welcome";
         String actualReturnPath = demoController.welcomeMessage(user, model);
         assertEquals(expectedReturnPath, actualReturnPath);
-        assertEquals(user, model.get("user"));
+        assertEquals(user, model.getAttribute("user"));
     }
 
     @Test
@@ -29,6 +29,6 @@ class DemoControllerUnitTest {
 
         String actualReturnPath = demoController.welcomeMessage(user, model);
         assertEquals(expectedReturnPath, actualReturnPath);
-        assertEquals(user, model.get("user"));
+        assertEquals(user, model.getAttribute("user"));
     }
 }
