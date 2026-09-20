@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<!-- Adding XML namespace for thymeleaf-->
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SpringBoot Demo Web-App</title>
+</head>
+<body>
+    <!-- inject the Model key user into the HTML H2 tag -->
+    <h2 th:text="'Hello, ' + ${user} + '!'"></h2>
+</body>
+</html>
