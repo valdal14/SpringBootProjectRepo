@@ -27,4 +27,14 @@ public class DemoControllerMockMVCTest {
                 .andExpect(view().name("welcome"))
                 .andExpect(model().attribute("user", "SpringBoot App"));
     }
+
+    @Test
+    public void testWelcomeMessageWithQueryString() throws Exception {
+        String queryStringValue = "Val";
+
+        mockMvc.perform(get("/hello?name=" + queryStringValue))
+                .andExpect(status().isOk())
+                .andExpect(view().name("welcome"))
+                .andExpect(model().attribute("user", queryStringValue));
+    }
 }
