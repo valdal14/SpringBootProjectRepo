@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.ConcurrentModel;
 
@@ -16,6 +15,18 @@ class DemoControllerUnitTest {
 
         String user = "Val";
         String expectedReturnPath = "welcome";
+        String actualReturnPath = demoController.welcomeMessage(user, model);
+        assertEquals(expectedReturnPath, actualReturnPath);
+        assertEquals(user, model.get("user"));
+    }
+
+    @Test
+    void welcomeMessageReturnsTheExpectedMessageAndModelPropertyWhenTheQueryStringParamIsEmpty() {
+        DemoController demoController = new DemoController();
+        ConcurrentModel model = new ConcurrentModel();
+        String user = "";
+        String expectedReturnPath = "welcome";
+
         String actualReturnPath = demoController.welcomeMessage(user, model);
         assertEquals(expectedReturnPath, actualReturnPath);
         assertEquals(user, model.get("user"));
