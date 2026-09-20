@@ -16,8 +16,11 @@ class DemoControllerUnitTest {
         String user = "Val";
         String expectedReturnPath = "welcome";
         String actualReturnPath = demoController.welcomeMessage(user, model);
-        assertEquals(expectedReturnPath, actualReturnPath);
-        assertEquals(user, model.getAttribute("user"));
+        // assert all
+        assertAll(
+                () -> assertEquals(expectedReturnPath, actualReturnPath),
+                () -> assertEquals(user, model.getAttribute("user"))
+        );
     }
 
     @Test
@@ -26,9 +29,10 @@ class DemoControllerUnitTest {
         ConcurrentModel model = new ConcurrentModel();
         String user = "";
         String expectedReturnPath = "welcome";
-
         String actualReturnPath = demoController.welcomeMessage(user, model);
-        assertEquals(expectedReturnPath, actualReturnPath);
-        assertEquals(user, model.getAttribute("user"));
+        assertAll(
+                () -> assertEquals(expectedReturnPath, actualReturnPath),
+                () -> assertEquals(user, model.getAttribute("user"))
+        );
     }
 }
