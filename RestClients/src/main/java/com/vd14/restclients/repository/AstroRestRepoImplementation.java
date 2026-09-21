@@ -2,26 +2,29 @@ package com.vd14.restclients.repository;
 
 import com.vd14.restclients.models.AstroModelRecord;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.time.Duration;
 
 @Repository
-@Primary
-public class AstroRepoImplementation implements AstroRepository {
+public class AstroRestRepoImplementation implements AstroRepository {
     private final static String ENDPOINT_URL = "http://api.open-notify.org/astros.json";
+    private final WebClient webClient;
+
     @Autowired
-    private RestClient restClient;
+    public AstroRestRepoImplementation(WebClient webClient) {
+        this.webClient = webClient;
+    }
 
     @Override
     public AstroModelRecord getRecord() {
-
-        return restClient
-                .get()
+        return webClient.get()
                 .uri(ENDPOINT_URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .body(AstroModelRecord.class);
+                .bodyToMono(AstroModelRecord.class)
+                .block(Duration.ofSeconds(3));
     }
 }
