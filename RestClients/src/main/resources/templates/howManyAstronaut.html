@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>Astronauts in Space</title>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    .status { font-weight: bold; color: green; }
+  </style>
+</head>
+<body>
+<h1>Current Space Roster</h1>
+
+<!-- Render the simple model attributes -->
+<p>API Status: <span class="status" th:text="${message}">success</span></p>
+<p>Total People in Space: <strong th:text="${numbers}">0</strong></p>
+
+<h2>Personnel Details</h2>
+
+<!-- Iterate over the list of astronauts -->
+<ul>
+  <li th:each="astronaut : ${astronauts}">
+    <span th:text="${astronaut.name}">Astronaut Name</span>
+    — <em>Craft: <span th:text="${astronaut.craft}">Spacecraft</span></em>
+  </li>
+</ul>
+</body>
+</html>
