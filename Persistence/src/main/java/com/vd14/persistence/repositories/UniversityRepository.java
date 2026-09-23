@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public class UniversityRepository implements UniRepository {
     private final JdbcTemplate jdbcTemplate;
+    private final static String SELECT_ALL = "SELECT UNI.ID, UNI.NAME, UNI.OVERALL_SCORE, UNI.CITY, UNI.COUNTRY FROM University AS UNI";
 
     public UniversityRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -32,6 +33,13 @@ public class UniversityRepository implements UniRepository {
 
     @Override
     public List<University> findAll() {
-        return List.of();
+        return this.jdbcTemplate.query(SELECT_ALL, (rs, rowNum) -> {
+            long id = rs.getLong("ID");
+            String name = rs.getString("NAME");
+            long overallScore = rs.getLong("OVERALL_SCORE");
+            String city = rs.getString("CITY");
+            String country = rs.getString("COUNTRY");
+            return new University(id, name, overallScore, city, country);
+        });
     }
 }
