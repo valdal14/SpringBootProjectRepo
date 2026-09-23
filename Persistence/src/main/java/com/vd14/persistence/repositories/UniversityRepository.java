@@ -15,6 +15,7 @@ public class UniversityRepository implements UniRepository {
     private final static String SELECT_ALL = "SELECT " + UNI_COLUMNS + " FROM University AS UNI";
     private final static String SELECT_BY_ID = "SELECT " + UNI_COLUMNS + " FROM University AS UNI WHERE UNI.ID = ?";
     private final static String INSERT_UNI = "INSERT INTO University (NAME, OVERALL_SCORE, CITY, COUNTRY) VALUES (?, ?, ?, ?)";
+    private final static String UPDATE_UNI = "UPDATE University SET NAME = ?, OVERALL_SCORE = ?, CITY = ?, COUNTRY = ? WHERE ID = ?";
 
     public UniversityRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -27,7 +28,7 @@ public class UniversityRepository implements UniRepository {
 
     @Override
     public void update(University entity) {
-
+        this.jdbcTemplate.update(UPDATE_UNI, entity.getName(), entity.getOverallScore(), entity.getCity(), entity.getCountry(), entity.getId());
     }
 
     @Override

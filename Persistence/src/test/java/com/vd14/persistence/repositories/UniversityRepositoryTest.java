@@ -16,7 +16,7 @@ class UniversityRepositoryTest {
 
     @Test
     void insert() {
-        University newUni = makeUniversity(1L,
+        University newUni = makeUniversity(11L,
                 "University of Liverpool",
                 84.00,
                 "Liverpool",
@@ -31,6 +31,17 @@ class UniversityRepositoryTest {
 
     @Test
     void update() {
+        University updateUniScore = makeUniversity(11L,
+                "University of Liverpool",
+                86.00,
+                "Liverpool",
+                "United Kingdom"
+        );
+
+        double expectedScore = 86.00;
+        this.repository.update(updateUniScore);
+        University actualUniScore = this.repository.findById(updateUniScore.getId());
+        assertEquals(expectedScore, actualUniScore.getOverallScore());
     }
 
     @Test
