@@ -9,6 +9,6 @@ public class University {
     private long id;
     private String name;
     private double overallScore;
-    private String country;
     private String city;
+    private String country;
 }
