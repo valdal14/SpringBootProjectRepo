@@ -2,6 +2,7 @@ package com.vd14.persistence.repositories;
 
 import com.vd14.persistence.models.University;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -10,7 +11,9 @@ import java.util.List;
 @Repository
 public class UniversityRepository implements UniRepository {
     private final JdbcTemplate jdbcTemplate;
-    private final static String SELECT_ALL = "SELECT UNI.ID, UNI.NAME, UNI.OVERALL_SCORE, UNI.CITY, UNI.COUNTRY FROM University AS UNI";
+    private final static String UNI_COLUMNS = "UNI.ID, UNI.NAME, UNI.OVERALL_SCORE, UNI.CITY, UNI.COUNTRY";
+    private final static String SELECT_ALL = "SELECT " + UNI_COLUMNS + " FROM University AS UNI";
+    private final static String SELECT_BY_ID = "SELECT " + UNI_COLUMNS + " FROM University AS UNI WHERE UNI.ID = ?";
 
     public UniversityRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -28,18 +31,20 @@ public class UniversityRepository implements UniRepository {
 
     @Override
     public University findById(long id) {
-        return null;
+        return this.jdbcTemplate.queryForObject(SELECT_BY_ID, universityRowMapper, id);
     }
 
     @Override
     public List<University> findAll() {
-        return this.jdbcTemplate.query(SELECT_ALL, (rs, rowNum) -> {
-            long id = rs.getLong("ID");
-            String name = rs.getString("NAME");
-            long overallScore = rs.getLong("OVERALL_SCORE");
-            String city = rs.getString("CITY");
-            String country = rs.getString("COUNTRY");
-            return new University(id, name, overallScore, city, country);
-        });
+        return this.jdbcTemplate.query(SELECT_ALL, universityRowMapper);
     }
+
+    private final RowMapper<University> universityRowMapper = (rs, rowNum) -> {
+        long id = rs.getLong("ID");
+        String name = rs.getString("NAME");
+        long overallScore = rs.getLong("OVERALL_SCORE");
+        String city = rs.getString("CITY");
+        String country = rs.getString("COUNTRY");
+        return new University(id, name, overallScore, city, country);
+    };
 }

@@ -24,6 +24,22 @@ class UniversityRepositoryTest {
 
     @Test
     void findById() {
+        University expectedUni = new University(
+                1L,
+                "Massachusetts Institute of Technology (MIT)",
+                100.00,
+                "Cambridge",
+                "United States"
+        );
+
+        University actual = this.repository.findById(1L);
+        assertAll(
+                () -> assertEquals(expectedUni.getId(), actual.getId()),
+                () -> assertEquals(expectedUni.getName(), actual.getName()),
+                () -> assertEquals(expectedUni.getOverallScore(), actual.getOverallScore()),
+                () -> assertEquals(expectedUni.getCity(), actual.getCity()),
+                () -> assertEquals(expectedUni.getCountry(), actual.getCountry())
+        );
     }
 
     @Test
