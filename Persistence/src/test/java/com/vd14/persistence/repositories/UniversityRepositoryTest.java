@@ -16,6 +16,17 @@ class UniversityRepositoryTest {
 
     @Test
     void insert() {
+        University newUni = makeUniversity(1L,
+                "University of Liverpool",
+                84.00,
+                "Liverpool",
+                "United Kingdom"
+        );
+
+        this.repository.insert(newUni);
+        int expectedSize = 11;
+        int actualSize = this.repository.findAll().size();
+        assertEquals(expectedSize, actualSize);
     }
 
     @Test
@@ -44,7 +55,7 @@ class UniversityRepositoryTest {
     @Test
     void findAll() {
         List<University> entities = repository.findAll();
-        int expectedCount = 10;
+        int expectedCount = 11;
         assertEquals(expectedCount, entities.size());
     }
 
