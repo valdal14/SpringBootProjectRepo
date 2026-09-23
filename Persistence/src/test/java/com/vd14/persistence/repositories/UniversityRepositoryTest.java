@@ -24,8 +24,7 @@ class UniversityRepositoryTest {
 
     @Test
     void findById() {
-        University expectedUni = new University(
-                1L,
+        University expectedUni = makeUniversity(1L,
                 "Massachusetts Institute of Technology (MIT)",
                 100.00,
                 "Cambridge",
@@ -47,5 +46,9 @@ class UniversityRepositoryTest {
         List<University> entities = repository.findAll();
         int expectedCount = 10;
         assertEquals(expectedCount, entities.size());
+    }
+
+    private University makeUniversity(Long id, String name, Double overallScore, String city, String country) {
+        return new University(id, name, overallScore, city, country);
     }
 }
