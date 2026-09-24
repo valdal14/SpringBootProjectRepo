@@ -35,11 +35,7 @@ public class UniversityRepository implements UniRepository {
     @Override
     public Optional<University> findById(long id) {
         University university = this.jdbcTemplate.queryForObject(SELECT_BY_ID, universityRowMapper, id);
-        if (university != null) {
-            return Optional.of(university);
-        } else {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(university);
     }
 
     @Override
