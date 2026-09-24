@@ -23,12 +23,12 @@ public class UniversityRepository implements UniRepository {
 
     @Override
     public void insert(University entity) {
-        this.jdbcTemplate.update(INSERT_UNI, entity.getName(), entity.getOverallScore(), entity.getCity(), entity.getCountry());
+        this.jdbcTemplate.update(INSERT_UNI, entity.name(), entity.overallScore(), entity.city(), entity.country());
     }
 
     @Override
     public void update(University entity) {
-        this.jdbcTemplate.update(UPDATE_UNI, entity.getName(), entity.getOverallScore(), entity.getCity(), entity.getCountry(), entity.getId());
+        this.jdbcTemplate.update(UPDATE_UNI, entity.name(), entity.overallScore(), entity.city(), entity.country(), entity.id());
     }
 
     @Override
