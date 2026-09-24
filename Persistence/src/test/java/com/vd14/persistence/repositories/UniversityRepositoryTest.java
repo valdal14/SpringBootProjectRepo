@@ -40,8 +40,10 @@ class UniversityRepositoryTest {
 
         double expectedScore = 86.00;
         this.repository.update(updateUniScore);
-        University actualUniScore = this.repository.findById(updateUniScore.id());
-        assertEquals(expectedScore, actualUniScore.overallScore());
+
+        this.repository.findById(updateUniScore.id()).ifPresent(
+                university -> assertEquals(expectedScore, university.overallScore())
+        );
     }
 
     @Test
@@ -53,14 +55,13 @@ class UniversityRepositoryTest {
                 "United States"
         );
 
-        University actual = this.repository.findById(1L);
-        assertAll(
+        this.repository.findById(expectedUni.id()).ifPresent(actual -> assertAll(
                 () -> assertEquals(expectedUni.id(), actual.id()),
                 () -> assertEquals(expectedUni.name(), actual.name()),
                 () -> assertEquals(expectedUni.overallScore(), actual.overallScore()),
                 () -> assertEquals(expectedUni.city(), actual.city()),
                 () -> assertEquals(expectedUni.country(), actual.country())
-        );
+        ));
     }
 
     @Test

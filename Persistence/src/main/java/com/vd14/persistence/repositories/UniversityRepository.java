@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UniversityRepository implements UniRepository {
@@ -32,8 +33,13 @@ public class UniversityRepository implements UniRepository {
     }
 
     @Override
-    public University findById(long id) {
-        return this.jdbcTemplate.queryForObject(SELECT_BY_ID, universityRowMapper, id);
+    public Optional<University> findById(long id) {
+        University university = this.jdbcTemplate.queryForObject(SELECT_BY_ID, universityRowMapper, id);
+        if (university != null) {
+            return Optional.of(university);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
