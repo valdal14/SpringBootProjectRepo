@@ -1,6 +1,7 @@
 package com.vd14.persistence.repositories;
 
 import com.vd14.persistence.models.University;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -34,8 +35,12 @@ public class UniversityRepository implements UniRepository {
 
     @Override
     public Optional<University> findById(long id) {
-        University university = this.jdbcTemplate.queryForObject(SELECT_BY_ID, universityRowMapper, id);
-        return Optional.ofNullable(university);
+        try {
+            University university = this.jdbcTemplate.queryForObject(SELECT_BY_ID, universityRowMapper, id);
+            return Optional.of(university);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

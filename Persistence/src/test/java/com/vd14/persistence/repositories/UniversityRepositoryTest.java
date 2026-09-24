@@ -65,6 +65,11 @@ class UniversityRepositoryTest {
     }
 
     @Test
+    void findByIdReturnsEmptyUniversity() {
+        assertNull(this.repository.findById(15L).orElse(null));
+    }
+
+    @Test
     void findAll() {
         List<University> entities = repository.findAll();
         int expectedCount = 11;
