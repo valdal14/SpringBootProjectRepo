@@ -1,0 +1,84 @@
+package com.vd14.persistence.repositories;
+
+import com.vd14.persistence.models.University;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+@Transactional
+class UniversityRepositoryTest {
+    @Autowired
+    private UniversityRepository repository;
+
+    @Test
+    void insert() {
+        University newUni = makeUniversity(11L,
+                "University of Liverpool",
+                84.00,
+                "Liverpool",
+                "United Kingdom"
+        );
+
+        this.repository.insert(newUni);
+        int expectedSize = 11;
+        int actualSize = this.repository.findAll().size();
+        assertEquals(expectedSize, actualSize);
+    }
+
+    @Test
+    void update() {
+        University updateUniScore = makeUniversity(11L,
+                "University of Liverpool",
+                86.00,
+                "Liverpool",
+                "United Kingdom"
+        );
+
+        double expectedScore = 86.00;
+        this.repository.update(updateUniScore);
+
+        this.repository.findById(updateUniScore.id()).ifPresent(
+                university -> assertEquals(expectedScore, university.overallScore())
+        );
+    }
+
+    @Test
+    void findById() {
+        University expectedUni = makeUniversity(1L,
+                "Massachusetts Institute of Technology (MIT)",
+                100.00,
+                "Cambridge",
+                "United States"
+        );
+
+        this.repository.findById(expectedUni.id()).ifPresent(actual -> assertAll(
+                () -> assertEquals(expectedUni.id(), actual.id()),
+                () -> assertEquals(expectedUni.name(), actual.name()),
+                () -> assertEquals(expectedUni.overallScore(), actual.overallScore()),
+                () -> assertEquals(expectedUni.city(), actual.city()),
+                () -> assertEquals(expectedUni.country(), actual.country())
+        ));
+    }
+
+    @Test
+    void findByIdReturnsEmptyUniversity() {
+        assertNull(this.repository.findById(15L).orElse(null));
+    }
+
+    @Test
+    void findAll() {
+        List<University> entities = repository.findAll();
+        int expectedCount = 10;
+        assertEquals(expectedCount, entities.size());
+    }
+
+    private University makeUniversity(Long id, String name, Double overallScore, String city, String country) {
+        return new University(id, name, overallScore, city, country);
+    }
+}

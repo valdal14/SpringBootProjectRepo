@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Top Global Universities</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; color: #333; }
+    table { border-collapse: collapse; width: 100%; max-width: 1000px; margin-top: 1rem; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+    th { background-color: #f8f9fa; font-weight: 600; }
+    tr:hover { background-color: #f1f5f9; }
+    .score { font-weight: bold; color: #0369a1; }
+  </style>
+</head>
+<body>
+<h1>Most Prestigious Universities</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Institution Name</th>
+    <th>Overall Score</th>
+    <th>City</th>
+    <th>Country</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Iterate over the list of University objects -->
+  <tr th:each="uni : ${universities}">
+    <td th:text="${uni.name}">University Name</td>
+    <td class="score" th:text="${uni.overallScore}">100.00</td>
+    <td th:text="${uni.city}">City</td>
+    <td th:text="${uni.country}">Country</td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
