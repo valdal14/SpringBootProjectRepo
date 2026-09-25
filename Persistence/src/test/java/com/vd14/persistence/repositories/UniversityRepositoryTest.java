@@ -4,12 +4,14 @@ import com.vd14.persistence.models.University;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class UniversityRepositoryTest {
     @Autowired
     private UniversityRepository repository;
@@ -72,7 +74,7 @@ class UniversityRepositoryTest {
     @Test
     void findAll() {
         List<University> entities = repository.findAll();
-        int expectedCount = 11;
+        int expectedCount = 10;
         assertEquals(expectedCount, entities.size());
     }
 
