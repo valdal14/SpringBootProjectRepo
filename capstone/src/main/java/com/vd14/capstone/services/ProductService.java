@@ -5,6 +5,8 @@ import com.vd14.capstone.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
@@ -24,5 +26,9 @@ public class ProductService {
 
     public Product save(Product product) {
         return productRepository.save(product);
+    }
+
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 }

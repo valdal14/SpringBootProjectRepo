@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -67,6 +68,24 @@ class ProductServiceTest {
         );
         // VERIFY
         verify(productRepository).save(any(Product.class));
+    }
+
+    @Test
+    void findAllSuccessfullyFindAllProducts() {
+        // ARRANGE
+        Product p1 = makeProduct(1L, "iPhone 18 PRO", BigDecimal.valueOf(1299.0), true);
+        Product p2 = makeProduct(2L, "MacBook Pro 16", BigDecimal.valueOf(2499.0), true);
+        List<Product> productsToAdd = List.of(p1, p2);
+        List<Product> productsAdded = List.of(p1, p2);
+        when(productRepository.findAll()).thenReturn(productsAdded);
+        // ACT
+        List<Product> productList = productService.findAll();
+        // ASSERT
+        // Let's first assert that the productList is not empty
+        assertFalse(productList.isEmpty());
+        assertEquals(productsToAdd.size(), productList.size());
+        // VERIFY
+        verify(productRepository).findAll();
     }
 
     /**
