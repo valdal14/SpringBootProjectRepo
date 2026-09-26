@@ -36,4 +36,8 @@ public class ProductService {
     public Product update(Product product) {
         return productRepository.save(product);
     }
+
+    public List<Product> findAllBy(String name) {
+        return productRepository.findAllBy(name);
+    }
 }

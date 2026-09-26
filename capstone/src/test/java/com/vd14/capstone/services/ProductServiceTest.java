@@ -115,6 +115,29 @@ class ProductServiceTest {
         verify(productRepository).save(any(Product.class));
     }
 
+    @Test
+    void findAllByOrderByNameAsc() {
+        // ARRANGE
+        Product p1 = makeProduct(1L, "iPhone 18 PRO", BigDecimal.valueOf(1299.0), true);
+        Product p2 = makeProduct(2L, "MacBook Pro 16", BigDecimal.valueOf(2499.0), true);
+        Product p3 = makeProduct(3L, "AirTag", BigDecimal.valueOf(49.0), true);
+        Product p4 = makeProduct(4L, "AirTag", BigDecimal.valueOf(52.0), true);
+        List<Product> products = List.of(p1, p2,  p3, p4);
+        when(productRepository.findAllBy("AirTag")).thenReturn(products.subList(2, products.size()));
+        // ACT
+        List<Product> productList = productService.findAllBy("AirTag");
+        // ASSERT
+        assertAll(
+                ()-> assertEquals(2, productList.size()),
+                ()-> productList.forEach(product -> {
+                    assertEquals("AirTag", product.getName());
+                })
+        );
+        // VERIFY
+        verify(productRepository).findAllBy("AirTag");
+
+    }
+
     /**
      * Helpers Method used to create a new Product
      * @param id The id of the product
