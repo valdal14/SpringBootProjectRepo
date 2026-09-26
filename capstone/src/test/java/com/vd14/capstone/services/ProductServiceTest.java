@@ -50,6 +50,25 @@ class ProductServiceTest {
         verify(productRepository).getReferenceById(1L);
     }
 
+    @Test
+    void saveSuccessfullySaveProduct() {
+        // ARRANGE
+        Product newProduct = makeProduct(0L, "iPhone 18 PRO", BigDecimal.valueOf(1299.0), false);
+        Product savedProduct = makeProduct(4L, "iPhone 18 PRO", BigDecimal.valueOf(1299.0), true);
+        // Using any() because the service might create a new instance or alter it before saving
+        when(productRepository.save(any(Product.class))).thenReturn(savedProduct);
+        // ACT
+        Product productAdded = productService.save(newProduct);
+        // ASSERT
+        assertAll(
+                () -> assertTrue(savedProduct.getId() > 0L),
+                () -> assertEquals(newProduct.getName(), productAdded.getName()),
+                () -> assertEquals(newProduct.getPrice(), productAdded.getPrice())
+        );
+        // VERIFY
+        verify(productRepository).save(any(Product.class));
+    }
+
     /**
      * Helpers Method used to create a new Product
      * @param id The id of the product

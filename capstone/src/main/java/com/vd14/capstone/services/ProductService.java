@@ -21,4 +21,8 @@ public class ProductService {
     public Product getReferenceById(Long id) {
         return productRepository.getReferenceById(id);
     }
+
+    public Product save(Product product) {
+        return productRepository.save(product);
+    }
 }
