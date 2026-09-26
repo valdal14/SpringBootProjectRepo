@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,16 +40,28 @@ class ProductServiceTest {
     }
 
     @Test
-    void getReferenceByIdSuccessfullyReturnProduct() {
+    void findByIdSuccessfullyReturnProduct() {
         // ARRANGE
         Product expectedProduct = makeProduct(1L, "MacBook Pro 16", BigDecimal.valueOf(2499.0), true);
-        when(productRepository.getReferenceById(1L)).thenReturn(expectedProduct);
+        when(productRepository.findById(expectedProduct.getId())).thenReturn(Optional.of(expectedProduct));
         // ACT
-        Product actualProduct = productService.getReferenceById(1L);
+        Optional<Product> optionalProduct = productService.findById(expectedProduct.getId());
         // ASSERT
-        assertEquals(expectedProduct, actualProduct);
+        optionalProduct.ifPresent(actualProduct -> assertEquals(expectedProduct, actualProduct));
         // VERIFY
-        verify(productRepository).getReferenceById(1L);
+        verify(productRepository).findById(expectedProduct.getId());
+    }
+
+    @Test
+    void findByIdNotFoundReturnFalse() {
+        // ARRANGE
+        when(productRepository.findById(1L)).thenReturn(Optional.empty());
+        // ACT
+        Optional<Product> optionalProduct = productService.findById(1L);
+        // ASSERT
+        assertFalse(optionalProduct.isPresent());
+        // VERIFY
+        verify(productRepository).findById(1L);
     }
 
     @Test
@@ -86,6 +99,20 @@ class ProductServiceTest {
         assertEquals(productsToAdd.size(), productList.size());
         // VERIFY
         verify(productRepository).findAll();
+    }
+
+    @Test
+    void updateSuccessfullyUpdateProduct() {
+        // ARRANGE
+        Product stored = makeProduct(1L, "iPhone 18 PRO", BigDecimal.valueOf(1299.0), true);
+        Product update = makeProduct(1L, "iPhone 18 PRO", BigDecimal.valueOf(1199.0), true);
+        when(productRepository.save(any(Product.class))).thenReturn(update);
+        // ACT
+        Product updatedProduct = productService.update(stored);
+        // ASSERT
+        assertEquals(update, updatedProduct);
+        // VERIFY
+        verify(productRepository).save(any(Product.class));
     }
 
     /**
