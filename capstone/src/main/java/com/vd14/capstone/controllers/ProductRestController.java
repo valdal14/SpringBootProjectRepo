@@ -5,6 +5,7 @@ import com.vd14.capstone.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -20,5 +21,10 @@ public class ProductRestController {
     @GetMapping(path = "/{id}", produces = "application/json")
     public Optional<Product> getProduct(@PathVariable Long id) {
         return productService.findById(id);
+    }
+
+    @GetMapping(path = "/all", produces = "application/json")
+    public List<Product> getAll() {
+        return productService.findAll();
     }
 }

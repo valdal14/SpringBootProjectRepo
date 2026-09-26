@@ -41,4 +41,17 @@ class ProductRestControllerTest {
         // VERIFY
         verify(productService).findById(1L);
     }
+
+    @Test
+    void getProductByIdNotFound() throws Exception {
+        // ARRANGE
+        when(productService.findById(4L)).thenReturn(Optional.empty());
+        // ACT
+        mockMvc.perform(get("/product/4"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().string("null"));
+        // VERIFY
+        verify(productService).findById(4L);
+    }
 }
