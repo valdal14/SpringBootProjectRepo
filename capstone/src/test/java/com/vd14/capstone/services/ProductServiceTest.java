@@ -27,13 +27,27 @@ class ProductServiceTest {
 
     @Test
     void existsByIdReturnTrue() {
+        // ARRANGE
         when(productRepository.existsById(1L)).thenReturn(Boolean.TRUE);
         // ACT
         boolean wasFoundIt = productService.existsById(1L);
-        // Assert
+        // ASSERT
         assertTrue(wasFoundIt);
-        // Verify
+        // VERIFY
         verify(productRepository).existsById(1L);
+    }
+
+    @Test
+    void getReferenceByIdSuccessfullyReturnProduct() {
+        // ARRANGE
+        Product expectedProduct = makeProduct(1L, "MacBook Pro 16", BigDecimal.valueOf(2499.0), true);
+        when(productRepository.getReferenceById(1L)).thenReturn(expectedProduct);
+        // ACT
+        Product actualProduct = productService.getReferenceById(1L);
+        // ASSERT
+        assertEquals(expectedProduct, actualProduct);
+        // VERIFY
+        verify(productRepository).getReferenceById(1L);
     }
 
     /**
@@ -48,3 +62,5 @@ class ProductServiceTest {
         return productWithID ? new  Product(id, name, price) : new Product(name, price);
     }
 }
+
+// Product product = makeProduct(1L, "MacBook Pro 16", BigDecimal.valueOf(2499.0), true);
