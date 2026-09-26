@@ -62,5 +62,3 @@ class ProductServiceTest {
         return productWithID ? new  Product(id, name, price) : new Product(name, price);
     }
 }
-
-// Product product = makeProduct(1L, "MacBook Pro 16", BigDecimal.valueOf(2499.0), true);
